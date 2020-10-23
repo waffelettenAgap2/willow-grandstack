@@ -31,5 +31,9 @@
       "prettier --write",
       "eslint --fix"
     ]
+  },
+  "dependencies": {
+    "@urbica/react-map-gl": "^1.14.2",
+    "mapbox-gl": "^1.12.0"
   }
 }
