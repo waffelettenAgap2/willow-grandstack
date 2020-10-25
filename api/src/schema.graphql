@@ -105,6 +105,11 @@ type Property {
    in_subdivision: [Subdivision] @relation(name: "IN_SUBDIVISION", direction: "OUT")
    in_neighborhood: [Neighborhood] @relation(name: "IN_NEIGHBORHOOD", direction: "OUT")
    has_appraisal: [Appraisal] @relation(name: "HAS_APPRAISAL", direction: "OUT")
+   photos(radius: Int = 1000, first: Int = 5): [Photo] @neo4j_ignore
+}
+
+type Photo {
+  url: String
 }
 
 

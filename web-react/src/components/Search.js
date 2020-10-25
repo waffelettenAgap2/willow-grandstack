@@ -18,6 +18,9 @@ const PROPERTY_SEARCH_QUERY = gql`
             full_baths
             half_baths
             sqft
+            photos {
+                url
+            }
             in_subdivision {
                 name
             }

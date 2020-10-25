@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Grid, Paper } from '@material-ui/core'
+import { Grid, Paper, GridList, GridListTile } from '@material-ui/core'
 import {useTheme, makeStyles} from '@material-ui/core/styles'
 import clsx from 'clsx'
 import MapGL, {Marker} from '@urbica/react-map-gl';
@@ -33,7 +33,7 @@ export default function MapResults(props) {
       const [viewport, setViewport] = useState({
         latitude:44.68070186605685, 
         longitude:-111.26491117267962,
-        zoom: 15
+        zoom: 13
       });
 
       const style = {
@@ -62,7 +62,10 @@ export default function MapResults(props) {
                         >
                             {props.properties.map ((p,i) => {
                                 return (
-                                    <Marker key={i} latitude= {p.location.latitude} longitude={p.location.longitude} >
+                                    <Marker 
+                                        key={i} 
+                                        latitude= {p.location.latitude} 
+                                        longitude={p.location.longitude} >
                                     <div 
                                         onClick = {() => setCurrentProperty(p)}
                                         style={style}>
@@ -83,6 +86,13 @@ export default function MapResults(props) {
                             <li>Full baths: {currentProperty.full_baths}</li>
                             <li>Half baths: {currentProperty.half_baths}</li>
                         </ul>
+                        <GridList cellHeight={160} cols={2}>
+                            {currentProperty.photos.map((v, i) => (
+                                <GridListTile key={i} cols={1}>
+                                    <img src={v.url}></img>
+                                </GridListTile>
+                            ))}
+                        </GridList>
                     </Paper>                  
                 </Grid>
             </Grid>
