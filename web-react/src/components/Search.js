@@ -5,6 +5,7 @@ import { useQuery, gql } from '@apollo/client'
 const PROPERTY_SEARCH_QUERY = gql`
     {
         Property(
+            first: 10
             filter: {
                 location_distance_lt: {
                     point: {latitude: 44.68070186605685, longitude: -111.26491117267962},
@@ -13,6 +14,7 @@ const PROPERTY_SEARCH_QUERY = gql`
                 address_not: null
             }
         ) {
+            id
             address
             bedrooms
             full_baths

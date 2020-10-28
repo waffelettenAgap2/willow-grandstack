@@ -24,7 +24,7 @@ export default function Deposits() {
   const classes = useStyles()
 
   const { loading, error, data } = useQuery(GET_COUNT_QUERY)
-  if (error) return <p>Error</p>
+  if (error) return <p>Sign in to view</p>
   return (
     <React.Fragment>
       <Title>Total Properties</Title>
@@ -35,7 +35,7 @@ export default function Deposits() {
         properties found
       </Typography>
       <div>
-        <Link to="/users" className={classes.navLink}>
+        <Link to="/search" className={classes.navLink}>
           View users
         </Link>
       </div>

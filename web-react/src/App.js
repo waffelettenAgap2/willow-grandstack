@@ -6,6 +6,8 @@ import UserList from './components/UserList'
 
 import Search from './components/Search'
 
+import Profile from './components/Profile'
+
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -23,6 +25,7 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
+  Button
 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import {
@@ -32,6 +35,8 @@ import {
   People as PeopleIcon,
 } from '@material-ui/icons'
 import Dashboard from './components/Dashboard'
+
+import {useAuth0} from '@auth0/auth0-react'
 
 function Copyright() {
   return (
@@ -138,6 +143,8 @@ const useStyles = makeStyles((theme) => ({
 export default function App() {
   const classes = useStyles()
   const [open, setOpen] = React.useState(true)
+
+  const {loginWithRedirect, logout, isAuthenticated} = useAuth0()
   const handleDrawerOpen = () => {
     setOpen(true)
   }
@@ -180,6 +187,16 @@ export default function App() {
             >
               Welcome To GRANDstack App
             </Typography>
+            {
+              !isAuthenticated && (
+                <Button color="inherit" onClick= {() => loginWithRedirect()}>Log In</Button>
+              )
+            }
+                        {
+              isAuthenticated && (
+                <Button color="inherit" onClick= {() => logout()}>Log Out</Button>
+              )
+            }
           </Toolbar>
         </AppBar>
         <Drawer
@@ -218,6 +235,7 @@ export default function App() {
         </Drawer>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
+          <Profile />
           <Container maxWidth="lg" className={classes.container}>
             <Switch>
               <Route exact path="/" component={Dashboard} />

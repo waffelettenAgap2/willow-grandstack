@@ -1,11 +1,31 @@
 type Query {
-   propertyCount: Int @cypher(statement: "MATCH (p:Property) RETURN COUNT (p)")
+   propertyCount: Int 
+      @isAuthenticated
+      @cypher(statement: "MATCH (p:Property) RETURN COUNT (p)")
 
-   cityValues: [CityValue] @cypher(statement: """
+   cityValues: [CityValue] 
+      @isAuthenticated
+      @cypher(statement: """
    MATCH (c:City)<-[:IN_CITY]-(p:Property)
    WHERE EXISTS(p.TotalValue)
    WITH c.name AS city, avg(p.TotalValue) AS average
    RETURN {city: city, average: average} as obj
+   """)
+
+   me: String @cypher(statement: "RETURN $cypherParams.userId")
+
+   getStarredProperties: [Property] @cypher(statement: """
+   MATCH(u:User {userId: $cypherParams.userId})-[:STARRED]->(p:Property)
+   RETURN p
+   """)
+}
+
+type Mutation {
+   starProperty(id: ID!): Property @cypher(statement: """
+   MATCH (p:Property {id: $id})
+   MERGE (u:User {userId: $cypherParams.userId})
+   MERGE (u)-[:STARRED]->(p)
+   RETURN p
    """)
 }
 
@@ -93,7 +113,7 @@ type Property {
    full_baths: Int
    half_baths: Int
    heating: String
-   id: String!
+   id: ID!
    location: Point
    lot_size: Int
    polygon: [Point]
